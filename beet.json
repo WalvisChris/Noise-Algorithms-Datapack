@@ -1,0 +1,20 @@
+{
+    "name": "mc algorithms",
+    "require": [
+        "bolt"
+    ],
+    "data_pack": {
+        "load": ["src"],
+        "pack_format": 94.1
+    },
+    "pipeline": ["mecha"],
+    "output": "build",
+    "meta": {
+        "bolt": {
+            "entrypoint": [
+                "func:main",
+                "func:noise"
+            ]
+        }
+    }
+}

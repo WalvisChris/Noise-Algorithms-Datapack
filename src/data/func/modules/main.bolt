@@ -1,0 +1,71 @@
+function func:plane/clear:
+    kill @e[tag=dummy]
+    function func:plane/empty
+
+function func:plane/empty:
+    fill 0 -63 0 40 -53 40 air
+    kill @e[type=item]
+
+function func:plane/refill:
+    kill @e[tag=dummy]
+
+    for x in range(21):
+        for z in range(21):
+            summon armor_stand x -63 z {NoGravity:1,Tags:["dummy"],Small:1,Invisible:1}
+    
+    execute as @e[tag=dummy] at @s run setblock ~ ~ ~ air
+
+function func:plane/heightmap:
+    function func:plane/empty
+    for i in range(1, 11):
+        execute as @e[tag=dummy] at @s if score @s random10 matches i:
+            height = i-1
+            fill ~ ~ ~ ~ ~height ~ dirt
+            setblock ~ ~height ~ grass_block
+            if score @s random10 matches 4..:
+                bottom = height-3
+                fill ~ ~ ~ ~ ~bottom ~ stone
+
+function func:plane/nature:
+    function func:plane/empty
+    for i in range(1, 11):
+        execute as @e[tag=dummy] at @s if score @s random10 matches i:
+            # dirt and grass
+            height = i-1
+            fill ~ ~ ~ ~ ~height ~ dirt
+            setblock ~ ~height ~ grass_block
+
+            # stone
+            if score @s random10 matches 4..:
+                stonelayer = height-3
+                fill ~ ~ ~ ~ ~stonelayer ~ stone
+
+            # sand
+            fill ~ ~2 ~ ~ ~4 ~ sand replace grass_block
+
+            # water
+            fill ~ ~ ~ ~ ~3 ~ blue_stained_glass replace air
+
+            # river floor
+            fill ~ ~ ~ ~ ~2 ~ stone replace dirt
+            fill ~ ~ ~ ~ ~2 ~ gravel replace grass_block
+
+            # random grass
+            if score @s random10 matches 6.. if score @e[tag=r10,limit=1,sort=random] random10 matches 8..:
+                grasslayer = height+1
+                setblock ~ ~grasslayer ~ short_grass
+
+function func:reset/random:
+    kill @e[tag=random]
+
+    for a in range(2):
+        summon armor_stand 0 0 0 {NoGravity:1,Tags:["random", "r2"],Invisible:1}
+        scoreboard players add @e[tag=r2] random2 1
+
+    for b in range(5):
+        summon armor_stand 0 0 0 {NoGravity:1,Tags:["random", "r5"],Invisible:1}
+        scoreboard players add @e[tag=r5] random5 1
+
+    for c in range(10):
+        summon armor_stand 0 0 0 {NoGravity:1,Tags:["random", "r10"],Invisible:1}
+        scoreboard players add @e[tag=r10] random10 1
