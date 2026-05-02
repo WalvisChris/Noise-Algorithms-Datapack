@@ -65,3 +65,29 @@ execute at @e[scores={random10=8}] run setblock ~ ~ ~ polished_diorite
 execute at @e[scores={random10=9}] run setblock ~ ~ ~ stripped_pale_oak_wood
 execute at @e[scores={random10=10}] run setblock ~ ~ ~ white_wool
 ```
+
+**Round scaled numbers**
+scoreboard players set @s[scores={random10=11..149}] random10 1
+scoreboard players set @s[scores={random10=150..249}] random10 2
+scoreboard players set @s[scores={random10=250..349}] random10 3
+scoreboard players set @s[scores={random10=350..449}] random10 4
+scoreboard players set @s[scores={random10=450..549}] random10 5
+scoreboard players set @s[scores={random10=550..649}] random10 6
+scoreboard players set @s[scores={random10=650..749}] random10 7
+scoreboard players set @s[scores={random10=750..849}] random10 8
+scoreboard players set @s[scores={random10=850..949}] random10 9
+scoreboard players set @s[scores={random10=950..1000}] random10 10
+
+**Get distance to control point**
+```mcfunction
+execute at @s if entity @e[tag=control,distance=9..] run scoreboard players set @s random10 10
+execute at @s if entity @e[tag=control,distance=8..9] run scoreboard players set @s random10 9
+execute at @s if entity @e[tag=control,distance=7..8] run scoreboard players set @s random10 8
+execute at @s if entity @e[tag=control,distance=6..7] run scoreboard players set @s random10 7
+execute at @s if entity @e[tag=control,distance=5..6] run scoreboard players set @s random10 6
+execute at @s if entity @e[tag=control,distance=4..5] run scoreboard players set @s random10 5
+execute at @s if entity @e[tag=control,distance=3..4] run scoreboard players set @s random10 4
+execute at @s if entity @e[tag=control,distance=2..3] run scoreboard players set @s random10 3
+execute at @s if entity @e[tag=control,distance=1..2] run scoreboard players set @s random10 2
+execute at @s if entity @e[tag=control,distance=0..1] run scoreboard players set @s random10 1
+```
