@@ -7,9 +7,13 @@ text.
 ```python
 import random
 
+# generate 21x21 grid
+grid = [[0 for x in range(21)] for y in range(21)]
+
 # assign random values
-foreach point in points:
-    point = random.randint(1, 10)
+foreach y in range(21):
+    foreach x in range(21):
+        grid[y][x] = random.randint(1, 10)
 ```
 
 **Commands**
