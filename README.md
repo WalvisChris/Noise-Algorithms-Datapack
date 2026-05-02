@@ -14,16 +14,16 @@ text.
 execute as @e[tag=dummy] store result score @s random10 run scoreboard players get @e[tag=r10,limit=1,sort=random] random10
 
 # render blocks
-execute if entity @s[scores={random10=1}] run setblock ~ ~ ~ black_concrete
-execute if entity @s[scores={random10=2}] run setblock ~ ~ ~ black_wool
-execute if entity @s[scores={random10=3}] run setblock ~ ~ ~ gray_wool
-execute if entity @s[scores={random10=4}] run setblock ~ ~ ~ polished_tuff
-execute if entity @s[scores={random10=5}] run setblock ~ ~ ~ light_gray_wool
-execute if entity @s[scores={random10=6}] run setblock ~ ~ ~ stone
-execute if entity @s[scores={random10=7}] run setblock ~ ~ ~ smooth_stone
-execute if entity @s[scores={random10=8}] run setblock ~ ~ ~ polished_diorite
-execute if entity @s[scores={random10=9}] run setblock ~ ~ ~ stripped_pale_oak_wood
-execute if entity @s[scores={random10=10}] run setblock ~ ~ ~ white_wool
+execute at @e[scores={random10=1}] run setblock ~ ~ ~ black_concrete
+execute at @e[scores={random10=2}] run setblock ~ ~ ~ black_wool
+execute at @e[scores={random10=3}] run setblock ~ ~ ~ gray_wool
+execute at @e[scores={random10=4}] run setblock ~ ~ ~ polished_tuff
+execute at @e[scores={random10=5}] run setblock ~ ~ ~ light_gray_wool
+execute at @e[scores={random10=6}] run setblock ~ ~ ~ stone
+execute at @e[scores={random10=7}] run setblock ~ ~ ~ smooth_stone
+execute at @e[scores={random10=8}] run setblock ~ ~ ~ polished_diorite
+execute at @e[scores={random10=9}] run setblock ~ ~ ~ stripped_pale_oak_wood
+execute at @e[scores={random10=10}] run setblock ~ ~ ~ white_wool
 ```
 
 ## Voronoi Noise Algorithm  
