@@ -7,10 +7,10 @@ text.
 ```python
 import random
 
-# generate 21x21 grid
+# 1. generate 21x21 grid
 grid = [[0 for x in range(21)] for y in range(21)]
 
-# assign random values
+# 2. assign random values
 foreach y in range(21):
     foreach x in range(21):
         grid[y][x] = random.randint(1, 10)
@@ -22,7 +22,6 @@ foreach y in range(21):
 # 2. assign random values
 execute as @e[tag=dummy] store result score @s random10 run scoreboard players get @e[tag=r10,limit=1,sort=random] random10
 # 3. render grayscale blocks
-function func:utils/render10
 ```
 
 ## Voronoi Noise Algorithm  
