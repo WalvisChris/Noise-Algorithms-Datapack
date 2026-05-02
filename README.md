@@ -68,6 +68,35 @@ function func:utils/render10 # see bottom of README for the commands
 
 ## Custom Lerp Algoritm  
 ![img](images/custom_lerp.png)  
+**Commands**
+```mcfunction
+# 1. fill the grid with armor stands tagged "dummy"
+# 2. place 5 random walkers 
+execute at @e[tag=dummy,limit=5,sort=random] run summon armor_stand ~ ~ ~ {NoGravity:1,Tags:["walker"],Invisible:1}
+
+# 3. set steps for walkers
+scoreboard players set @e[tag=walker] steps 100
+
+# --- loop logic ---
+# 4. get random direction
+execute as @e[tag=walker] if score @s steps matches 1.. at @s run scoreboard players operation @s random4 = @e[tag=r4,limit=1,sort=random] random4
+
+# 5. store x and z position
+execute as @e[tag=walker] if score @s steps matches 1.. store result score @s xPos run data get entity @s Pos[0] 1
+execute as @e[tag=walker] if score @s steps matches 1.. store result score @s zPos run data get entity @s Pos[2] 1
+
+# 6. move walker
+execute as @e[tag=walker] if score @s steps matches 1.. if score @s random4 matches 1 if score @s xPos matches ..19 at @s run tp @s ~1 ~ ~
+execute as @e[tag=walker] if score @s steps matches 1.. if score @s random4 matches 2 if score @s xPos matches 1.. at @s run tp @s ~-1 ~ ~
+execute as @e[tag=walker] if score @s steps matches 1.. if score @s random4 matches 3 if score @s zPos matches ..19 at @s run tp @s ~ ~ ~1
+execute as @e[tag=walker] if score @s steps matches 1.. if score @s random4 matches 4 if score @s zPos matches 1.. at @s run tp @s ~ ~ ~-1
+
+# 7. increase current position's value
+execute as @e[tag=walker] if score @s steps matches 1.. at @s run scoreboard players add @e[tag=dummy,limit=1,sort=nearest,scores={random10=..9}] random10 1
+
+# 8. decrement steps
+scoreboard players remove @e[tag=walker,scores={steps=1..}] steps 1
+```
 
 # General commands
 **Get random values**
