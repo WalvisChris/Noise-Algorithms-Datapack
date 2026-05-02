@@ -1,6 +1,4 @@
 # Noise Algorithms Datapack  
-text.  
-
 ## Random Noise Algorithm  
 ![img](images/random.png)  
 **Logic**
@@ -28,6 +26,30 @@ function func:utils/render10 # see bottom of README for the commands
 
 ## Voronoi Noise Algorithm  
 ![img](images/voronoi.png)  
+**Logic**
+```python
+import random
+
+# 1. generate 21x21 grid
+grid = [[0 for x in range(21)] for y in range(21)]
+
+# 2. create 12 control points
+control_points = [(random.randint(0, 20), random.randint(0, 20)) for _ in range(12)]
+
+# 3. caculate the distance to the nearest control point for each point in the grid
+for y in range(21):
+    for x in range(21):
+        min_dist = float('inf')
+
+        for cp_x, cp_y in control_points:
+            dist = math.sqrt((cp_x - x)**2 + (cp_y - y)**2)
+            
+            if dist < min_dist:
+                min_dist = dist
+        
+        grid[y][x] = min_dist
+```
+
 **Commands**
 ```mcfunction
 # 1. fill grid with armor stands tagged "dummy"
