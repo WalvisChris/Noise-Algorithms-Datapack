@@ -168,18 +168,13 @@ function func:noise/voronoi:
     function func:plane/refill
 
     # controle punten
-    execute at @e[tag=dummy,limit=12,sort=random] run summon armor_stand ~ ~ ~ {NoGravity:1,Tags:["control"],Small:0,Invisible:1}
+    execute at @e[tag=dummy,limit=12,sort=random] run summon armor_stand ~ ~ ~ {NoGravity:1,Tags:["control"],Small:0,Invisible:0}
 
-    # kill 21x21 dummy
-    function func:plane/clear
+    # get distance to control
+    execute as @e[tag=dummy] at @s run function func:utils/get_distance_to_control
 
-    # grid
-    for x in range(21):
-        for z in range(21):
-            summon armor_stand x -63 z {NoGravity:1,Tags:["dummy","new"],Small:1,Invisible:1}
-            execute as @e[tag=new] at @s run function func:utils/get_distance_to_control
-            execute as @e[tag=new] at @s run function func:utils/render10
-            tag @e[tag=new] remove new
+    # render
+    execute as @e[tag=dummy] at @s run function func:utils/render10
     
     # end
     kill @e[tag=control]
