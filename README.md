@@ -65,9 +65,6 @@ function func:utils/render10 # see bottom of README for the commands
 
 ## Random Walker Algorithm  
 ![img](images/walker.png)  
-
-## Custom Lerp Algoritm  
-![img](images/custom_lerp.png)  
 **Commands**
 ```mcfunction
 # 1. fill the grid with armor stands tagged "dummy"
@@ -102,6 +99,9 @@ scoreboard players remove @e[tag=walker,scores={steps=1..}] steps 1
 # 9. finish
 kill @e[tag=walker,scores={steps=..0}]
 ```
+
+## Custom Lerp Algoritm  
+![img](images/custom_lerp.png)  
 
 # General commands
 **Get random values**
