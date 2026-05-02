@@ -67,6 +67,7 @@ execute at @e[scores={random10=10}] run setblock ~ ~ ~ white_wool
 ```
 
 **Round scaled numbers**
+```mcfunction
 scoreboard players set @s[scores={random10=11..149}] random10 1
 scoreboard players set @s[scores={random10=150..249}] random10 2
 scoreboard players set @s[scores={random10=250..349}] random10 3
@@ -77,6 +78,7 @@ scoreboard players set @s[scores={random10=650..749}] random10 7
 scoreboard players set @s[scores={random10=750..849}] random10 8
 scoreboard players set @s[scores={random10=850..949}] random10 9
 scoreboard players set @s[scores={random10=950..1000}] random10 10
+```
 
 **Get distance to control point**
 ```mcfunction
