@@ -183,3 +183,37 @@ function func:noise/voronoi:
     
     # end
     kill @e[tag=control]
+
+function func:noise/random_walker:
+    # start clean
+    function func:plane/clear
+
+    # spawn 21x21 dummy
+    function func:plane/refill
+    scoreboard players set @e[tag=dummy] random10 1
+    
+    # summon 5 walkers
+    execute at @e[tag=dummy,limit=10,sort=random] run summon armor_stand ~ ~ ~ {NoGravity:1,Tags:["walker"],Small:0,Invisible:0}
+
+    # random walk
+    for i in range(100):
+        # set random direction
+        execute as @e[tag=walker] run scoreboard players operation @s random4 = @e[tag=r4,limit=1,sort=random] random4
+        # scoreboard players operation @e[tag=walker] random4 = @e[tag=r4,limit=1,sort=random] random4
+
+        # store x z
+        execute as @e[tag=walker] store result score @s xPos run data get entity @s Pos[0] 1
+        execute as @e[tag=walker] store result score @s zPos run data get entity @s Pos[2] 1
+
+        # move
+        execute as @e[tag=walker] if score @s random4 matches 1 if score @s xPos matches ..19 at @s run tp @s ~1 ~ ~
+        execute as @e[tag=walker] if score @s random4 matches 2 if score @s xPos matches 1.. at @s run tp @s ~-1 ~ ~
+        execute as @e[tag=walker] if score @s random4 matches 3 if score @s zPos matches ..19 at @s run tp @s ~ ~ ~1
+        execute as @e[tag=walker] if score @s random4 matches 4 if score @s zPos matches 1.. at @s run tp @s ~ ~ ~-1
+
+        # increase current position's value
+        execute as @e[tag=walker] at @s run scoreboard players add @e[tag=dummy,limit=1,sort=nearest,scores={random10=..9}] random10 1
+
+    # render
+    execute as @e[tag=dummy] at @s run function func:utils/render10
+    kill @e[tag=walker]

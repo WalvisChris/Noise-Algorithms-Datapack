@@ -1,5 +1,5 @@
 function func:plane/clear:
-    kill @e[tag=dummy]
+    kill @e[type=armor_stand,tag=!random]
     function func:plane/empty
 
 function func:plane/empty:
@@ -54,18 +54,3 @@ function func:plane/nature:
             if score @s random10 matches 6.. if score @e[tag=r10,limit=1,sort=random] random10 matches 8..:
                 grasslayer = height+1
                 setblock ~ ~grasslayer ~ short_grass
-
-function func:reset/random:
-    kill @e[tag=random]
-
-    for a in range(2):
-        summon armor_stand 0 0 0 {NoGravity:1,Tags:["random", "r2"],Invisible:1}
-        scoreboard players add @e[tag=r2] random2 1
-
-    for b in range(5):
-        summon armor_stand 0 0 0 {NoGravity:1,Tags:["random", "r5"],Invisible:1}
-        scoreboard players add @e[tag=r5] random5 1
-
-    for c in range(10):
-        summon armor_stand 0 0 0 {NoGravity:1,Tags:["random", "r10"],Invisible:1}
-        scoreboard players add @e[tag=r10] random10 1
