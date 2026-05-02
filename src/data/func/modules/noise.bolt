@@ -1,40 +1,17 @@
-function func:noise/render2:
-    execute if entity @s[scores={binary=1}] run setblock ~ ~ ~ black_concrete
-    execute if entity @s[scores={binary=2}] run setblock ~ ~ ~ white_wool
-
-function func:noise/render5:
-    execute if entity @s[scores={random5=1}] run setblock ~ ~ ~ black_concrete
-    execute if entity @s[scores={random5=2}] run setblock ~ ~ ~ gray_wool
-    execute if entity @s[scores={random5=3}] run setblock ~ ~ ~ light_gray_wool
-    execute if entity @s[scores={random5=4}] run setblock ~ ~ ~ smooth_stone
-    execute if entity @s[scores={random5=5}] run setblock ~ ~ ~ white_wool
-
-function func:noise/render10:
-    execute if entity @s[scores={random10=1}] run setblock ~ ~ ~ black_concrete
-    execute if entity @s[scores={random10=2}] run setblock ~ ~ ~ black_wool
-    execute if entity @s[scores={random10=3}] run setblock ~ ~ ~ gray_wool
-    execute if entity @s[scores={random10=4}] run setblock ~ ~ ~ polished_tuff
-    execute if entity @s[scores={random10=5}] run setblock ~ ~ ~ light_gray_wool
-    execute if entity @s[scores={random10=6}] run setblock ~ ~ ~ stone
-    execute if entity @s[scores={random10=7}] run setblock ~ ~ ~ smooth_stone
-    execute if entity @s[scores={random10=8}] run setblock ~ ~ ~ polished_diorite
-    execute if entity @s[scores={random10=9}] run setblock ~ ~ ~ stripped_pale_oak_wood
-    execute if entity @s[scores={random10=10}] run setblock ~ ~ ~ white_wool
-
 function func:noise/random2:
     function func:plane/refill
     execute as @e[tag=dummy] store result score @s binary run scoreboard players get @e[tag=r2,limit=1,sort=random] random2
-    execute as @e[tag=dummy] at @s run function func:noise/render2
+    execute as @e[tag=dummy] at @s run function func:utils/render2
 
 function func:noise/random5:
     function func:plane/refill
     execute as @e[tag=dummy] store result score @s random5 run scoreboard players get @e[tag=r5,limit=1,sort=random] random5
-    execute as @e[tag=dummy] at @s run function func:noise/render5
+    execute as @e[tag=dummy] at @s run function func:utils/render5
 
 function func:noise/random10:
     function func:plane/refill
     execute as @e[tag=dummy] store result score @s random10 run scoreboard players get @e[tag=r10,limit=1,sort=random] random10
-    execute as @e[tag=dummy] at @s run function func:noise/render10
+    execute as @e[tag=dummy] at @s run function func:utils/render10
 
 function func:noise/lerp10:
     function func:plane/clear
@@ -48,7 +25,7 @@ function func:noise/lerp10:
 
     # assign random values to grid
     execute as @e[tag=grid] store result score @s random10 run scoreboard players get @e[tag=r10,limit=1,sort=random] random10
-    execute as @e[tag=grid] at @s run function func:noise/render10
+    execute as @e[tag=grid] at @s run function func:utils/render10
 
     # summon lerper
     summon armor_stand 0 -63 0 {NoGravity:1,Tags:["lerp","dummy"],Small:0,Invisible:1}
@@ -81,29 +58,17 @@ function func:noise/lerp10:
             for i in range(4):
                 execute as @e[tag=lerp] at @s run tp @s ~ ~ ~1
                 scoreboard players operation @e[tag=lerp] start += @e[tag=lerp] end
-
-                # rounding
-                scoreboard players set @e[tag=lerp,scores={start=..149}] random10 1
-                scoreboard players set @e[tag=lerp,scores={start=150..249}] random10 2
-                scoreboard players set @e[tag=lerp,scores={start=250..349}] random10 3
-                scoreboard players set @e[tag=lerp,scores={start=350..449}] random10 4
-                scoreboard players set @e[tag=lerp,scores={start=450..549}] random10 5
-                scoreboard players set @e[tag=lerp,scores={start=550..649}] random10 6
-                scoreboard players set @e[tag=lerp,scores={start=650..749}] random10 7
-                scoreboard players set @e[tag=lerp,scores={start=750..849}] random10 8
-                scoreboard players set @e[tag=lerp,scores={start=850..949}] random10 9
-                scoreboard players set @e[tag=lerp,scores={start=950..1000}] random10 10
-
-                # render
                 execute at @e[tag=lerp] run summon armor_stand ~ ~ ~ {NoGravity:1,Tags:["grid","dummy","new"],Small:1,Invisible:1}
-                execute as @e[tag=lerp] run scoreboard players operation @e[tag=new] random10 = @s random10
+                execute as @e[tag=lerp] run scoreboard players operation @e[tag=new] random10 = @s start
+                execute as @e[tag=new] run function func:utils/round100
                 tag @e[tag=new] remove new
             
             tag @e[tag=start] remove start
             tag @e[tag=end] remove end
             execute as @e[tag=lerp] at @s run tp @s ~ ~ ~1
 
-    execute as @e[tag=grid] at @s run function func:noise/render10
+    # render
+    execute as @e[tag=grid] at @s run function func:utils/render10
     tp @e[tag=lerp] 0 -63 0
 
     # vertical lerp
@@ -134,27 +99,87 @@ function func:noise/lerp10:
             for i in range(4):
                 execute as @e[tag=lerp] at @s run tp @s ~1 ~ ~
                 scoreboard players operation @e[tag=lerp] start += @e[tag=lerp] end
-
-                # rounding
-                scoreboard players set @e[tag=lerp,scores={start=..149}] random10 1
-                scoreboard players set @e[tag=lerp,scores={start=150..249}] random10 2
-                scoreboard players set @e[tag=lerp,scores={start=250..349}] random10 3
-                scoreboard players set @e[tag=lerp,scores={start=350..449}] random10 4
-                scoreboard players set @e[tag=lerp,scores={start=450..549}] random10 5
-                scoreboard players set @e[tag=lerp,scores={start=550..649}] random10 6
-                scoreboard players set @e[tag=lerp,scores={start=650..749}] random10 7
-                scoreboard players set @e[tag=lerp,scores={start=750..849}] random10 8
-                scoreboard players set @e[tag=lerp,scores={start=850..949}] random10 9
-                scoreboard players set @e[tag=lerp,scores={start=950..1000}] random10 10
-
-                # render
                 execute at @e[tag=lerp] run summon armor_stand ~ ~ ~ {NoGravity:1,Tags:["grid","dummy","new"],Small:1,Invisible:1}
-                execute as @e[tag=lerp] run scoreboard players operation @e[tag=new] random10 = @s random10
+                execute as @e[tag=lerp] run scoreboard players operation @e[tag=new] random10 = @s start
+                execute as @e[tag=new] run function func:utils/round100
                 tag @e[tag=new] remove new
             
             tag @e[tag=start] remove start
             tag @e[tag=end] remove end
             execute as @e[tag=lerp] at @s run tp @s ~1 ~ ~
 
-    execute as @e[tag=grid] at @s run function func:noise/render10
+    # render
+    execute as @e[tag=grid] at @s run function func:utils/render10
     tp @e[tag=lerp] 0 -63 0
+
+function func:noise/average:
+    # start
+    summon armor_stand 0 -63 0 {NoGravity:1,Tags:["avg"],Small:0,Invisible:0}
+    execute as @e[tag=dummy,limit=1,sort=random] at @s run tp @e[tag=avg] ~ ~ ~
+    scoreboard players set @e[tag=avg] sum 0
+    scoreboard players set @e[tag=avg] count 0
+
+    # check north
+    execute as @e[tag=avg] at @s positioned ~ ~ ~-1 if entity @e[tag=dummy,distance=...5]:
+        store result score @s temp run scoreboard players get @e[tag=dummy,limit=1,sort=nearest] random10
+        scoreboard players operation @s temp *= 100 const
+        scoreboard players operation @s sum += @s temp
+        scoreboard players add @s count 1
+
+    # check south
+    execute as @e[tag=avg] at @s positioned ~ ~ ~1 if entity @e[tag=dummy,distance=...5]:
+        store result score @s temp run scoreboard players get @e[tag=dummy,limit=1,sort=nearest] random10
+        scoreboard players operation @s temp *= 100 const
+        scoreboard players operation @s sum += @s temp
+        scoreboard players add @s count 1
+
+    # check east
+    execute as @e[tag=avg] at @s positioned ~1 ~ ~ if entity @e[tag=dummy,distance=...5]:
+        store result score @s temp run scoreboard players get @e[tag=dummy,limit=1,sort=nearest] random10
+        scoreboard players operation @s temp *= 100 const
+        scoreboard players operation @s sum += @s temp
+        scoreboard players add @s count 1
+
+    # check west
+    execute as @e[tag=avg] at @s positioned ~-1 ~ ~ if entity @e[tag=dummy,distance=...5]:
+        store result score @s temp run scoreboard players get @e[tag=dummy,limit=1,sort=nearest] random10
+        scoreboard players operation @s temp *= 100 const
+        scoreboard players operation @s sum += @s temp
+        scoreboard players add @s count 1
+
+    # average
+    scoreboard players operation @e[tag=avg] sum /= @e[tag=avg] count
+    execute as @e[tag=avg] at @s run scoreboard players operation @e[tag=dummy,limit=1,sort=nearest] random10 = @s sum
+
+    # rounding
+    execute as @e[scores={random10=11..}] run function func:utils/round100
+
+    # render
+    execute as @e[tag=dummy] at @s run function func:utils/render10
+
+    # end
+    kill @e[tag=avg]
+
+function func:noise/voronoi:
+    # start clean
+    function func:plane/clear
+
+    # vul grid met dummy
+    function func:plane/refill
+
+    # controle punten
+    execute at @e[tag=dummy,limit=12,sort=random] run summon armor_stand ~ ~ ~ {NoGravity:1,Tags:["control"],Small:0,Invisible:1}
+
+    # kill 21x21 dummy
+    function func:plane/clear
+
+    # grid
+    for x in range(21):
+        for z in range(21):
+            summon armor_stand x -63 z {NoGravity:1,Tags:["dummy","new"],Small:1,Invisible:1}
+            execute as @e[tag=new] at @s run function func:utils/get_distance_to_control
+            execute as @e[tag=new] at @s run function func:utils/render10
+            tag @e[tag=new] remove new
+    
+    # end
+    kill @e[tag=control]

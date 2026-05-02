@@ -1,0 +1,3 @@
+function func:debug/diamond_square:
+    # start clean
+    function func:plane/clear

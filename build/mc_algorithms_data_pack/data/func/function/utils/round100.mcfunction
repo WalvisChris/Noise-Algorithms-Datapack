@@ -1,0 +1,10 @@
+scoreboard players set @s[scores={random10=11..149}] random10 1
+scoreboard players set @s[scores={random10=150..249}] random10 2
+scoreboard players set @s[scores={random10=250..349}] random10 3
+scoreboard players set @s[scores={random10=350..449}] random10 4
+scoreboard players set @s[scores={random10=450..549}] random10 5
+scoreboard players set @s[scores={random10=550..649}] random10 6
+scoreboard players set @s[scores={random10=650..749}] random10 7
+scoreboard players set @s[scores={random10=750..849}] random10 8
+scoreboard players set @s[scores={random10=850..949}] random10 9
+scoreboard players set @s[scores={random10=950..1000}] random10 10

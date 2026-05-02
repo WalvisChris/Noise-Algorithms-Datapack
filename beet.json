@@ -13,7 +13,9 @@
         "bolt": {
             "entrypoint": [
                 "func:main",
-                "func:noise"
+                "func:noise",
+                "func:utils",
+                "func:debug"
             ]
         }
     }
