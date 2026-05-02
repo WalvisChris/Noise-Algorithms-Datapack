@@ -21,11 +21,18 @@ foreach y in range(21):
 # 1. fill the grid with armor stands tagged "dummy"
 # 2. assign random values
 execute as @e[tag=dummy] store result score @s random10 run scoreboard players get @e[tag=r10,limit=1,sort=random] random10
-# 3. render grayscale blocks
 ```
 
 ## Voronoi Noise Algorithm  
 ![img](images/voronoi.png)  
+**Commands**
+```mcfunction
+# 1. fill grid with armor stands tagged "dummy"
+# 2. place 12 random control points
+execute at @e[tag=dummy,limit=12,sort=random] run summon armor_stand ~ ~ ~ {NoGravity:1,Tags:["control"],Invisible:1}
+# 3. calculate distance to nearest control point
+execute as @e[tag=dummy] at @s run function func:utils/get_distance_to_control # see bottom of README for the commands
+```
 
 ## Random Walker Algorithm  
 ![img](images/walker.png)  
