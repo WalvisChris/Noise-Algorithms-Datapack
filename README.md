@@ -18,8 +18,11 @@ foreach y in range(21):
 
 **Commands**
 ```mcfunction
-# assign random values
+# 1. fill the grid with armor stands tagged "dummy"
+# 2. assign random values
 execute as @e[tag=dummy] store result score @s random10 run scoreboard players get @e[tag=r10,limit=1,sort=random] random10
+# 3. render grayscale blocks
+function func:utils/render10
 ```
 
 ## Voronoi Noise Algorithm  
@@ -60,7 +63,7 @@ summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
 scoreboard players add @e[tag=r10] random10 1
 ```
 
-**Render blocks grayscale**
+**Render grayscale blocks**
 ```mcfunction
 execute at @e[scores={random10=1}] run setblock ~ ~ ~ black_concrete
 execute at @e[scores={random10=2}] run setblock ~ ~ ~ black_wool
