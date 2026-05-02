@@ -5,7 +5,11 @@ text.
 ![img](images/random.png)  
 **Logic**
 ```python
-# code
+import random
+
+# assign random values
+foreach point in points:
+    point = random.randint(1, 10)
 ```
 
 **Commands**
