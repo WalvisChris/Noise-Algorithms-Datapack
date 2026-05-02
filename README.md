@@ -10,6 +10,33 @@ text.
 
 **Commands**
 ```mcfunction
+# you will need these scoreboards
+scoreboard objectives add random10 dummy
+
+# summon armor stands with random values 1 through 10
+summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
+scoreboard players add @e[tag=r10] random10 1
+summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
+scoreboard players add @e[tag=r10] random10 1
+summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
+scoreboard players add @e[tag=r10] random10 1
+summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
+scoreboard players add @e[tag=r10] random10 1
+summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
+scoreboard players add @e[tag=r10] random10 1
+summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
+scoreboard players add @e[tag=r10] random10 1
+summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
+scoreboard players add @e[tag=r10] random10 1
+summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
+scoreboard players add @e[tag=r10] random10 1
+summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
+scoreboard players add @e[tag=r10] random10 1
+summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
+scoreboard players add @e[tag=r10] random10 1
+```
+
+```mcfunction
 # assign random values
 execute as @e[tag=dummy] store result score @s random10 run scoreboard players get @e[tag=r10,limit=1,sort=random] random10
 
