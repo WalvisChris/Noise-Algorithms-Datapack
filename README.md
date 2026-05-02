@@ -96,6 +96,11 @@ execute as @e[tag=walker] if score @s steps matches 1.. at @s run scoreboard pla
 
 # 8. decrement steps
 scoreboard players remove @e[tag=walker,scores={steps=1..}] steps 1
+
+# --- loop end ---
+
+# 9. finish
+kill @e[tag=walker,scores={steps=..0}]
 ```
 
 # General commands
