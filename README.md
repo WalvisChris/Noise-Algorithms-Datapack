@@ -10,10 +10,10 @@ text.
 
 **Commands**
 ```mcfunction
-# you will need these scoreboards
+# you will need these scoreboards:
 scoreboard objectives add random10 dummy
 
-# summon armor stands with random values 1 through 10
+# summon armor 10 stands with random values 1 through 10:
 summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
 scoreboard players add @e[tag=r10] random10 1
 summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
@@ -34,6 +34,8 @@ summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
 scoreboard players add @e[tag=r10] random10 1
 summon armor_stand 0 0 0 {Tags:["r10"],Invisible:1}
 scoreboard players add @e[tag=r10] random10 1
+
+# now fill your grid with armor stands with the tag "dummy"
 ```
 
 ```mcfunction
