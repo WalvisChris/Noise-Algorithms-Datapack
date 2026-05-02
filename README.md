@@ -5,6 +5,7 @@ text.
 ![img](images/random.png)  
 **Logic**
 ```python
+# code
 ```
 
 **Commands**
