@@ -61,3 +61,10 @@ function func:plane/nether:
         execute as @e[tag=dummy] at @s if score @s height matches nether_index:
             netherrack_layer = nether_index - 1
             fill ~ ~ ~ ~ ~netherrack_layer ~ netherrack
+
+function func:plane/end:
+    function func:plane/clear
+    for end_index in range(1, 11):
+        execute as @e[tag=dummy] at @s if score @s height matches end_index:
+            end_layer = end_index - 1
+            fill ~ ~ ~ ~ ~end_layer ~ end_stone
