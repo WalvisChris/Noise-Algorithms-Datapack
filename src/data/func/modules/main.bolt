@@ -1,5 +1,5 @@
 function func:plane/clear:
-    fill 0 -63 0 40 -53 40 air
+    fill 0 -63 0 21 -40 21 air
     kill @e[type=item]
 
 function func:plane/kill:
@@ -19,9 +19,12 @@ function func:plane/nature:
     function func:plane/clear
     for nature_index in range(1, 11):
         execute as @e[tag=dummy] at @s if score @s height matches nature_index:
+            # dirt and grass
             height_layer = nature_index - 1
             fill ~ ~ ~ ~ ~height_layer ~ dirt
             setblock ~ ~height_layer ~ grass_block
+            
+            # stone
             if score @s height matches 4..:
                 bottom = height_layer - 3
                 fill ~ ~ ~ ~ ~bottom ~ stone
@@ -39,21 +42,37 @@ function func:plane/nature_plus:
             if score @s height matches 4..:
                 stone_layer = height_layer - 3
                 fill ~ ~ ~ ~ ~stone_layer ~ stone
-
-            # sand
-            fill ~ ~2 ~ ~ ~4 ~ sand replace grass_block
-
-            # water
-            fill ~ ~ ~ ~ ~3 ~ blue_stained_glass replace air
-
-            # river floor
-            fill ~ ~ ~ ~ ~2 ~ stone replace dirt
-            fill ~ ~ ~ ~ ~2 ~ gravel replace grass_block
-
+            
             # random grass
             if score @s height matches 6.. if score @e[tag=r10,limit=1,sort=random] random matches 8..:
                 grass_layer = height_layer + 1
                 setblock ~ ~grass_layer ~ short_grass
+
+    execute as @e[tag=dummy] at @s:
+        # sand
+        fill ~ ~2 ~ ~ ~4 ~ sand replace grass_block
+
+        # water
+        fill ~ ~ ~ ~ ~3 ~ blue_stained_glass replace air
+
+        # river floor
+        fill ~ ~ ~ ~ ~2 ~ stone replace dirt
+        fill ~ ~ ~ ~ ~2 ~ gravel replace grass_block
+    
+    # tree
+    execute as @e[tag=dummy] store result score @s xPos run data get entity @s Pos[0] 1
+    execute as @e[tag=dummy] store result score @s zPos run data get entity @s Pos[2] 1
+    tag @e[tag=dummy,scores={height=10,xPos=3..17,zPos=3..17},limit=1,sort=random] add tree
+
+    execute at @e[tag=tree] run fill ~ ~8 ~ ~ ~12 ~ oak_log
+    execute at @e[tag=tree] run fill ~-1 ~12 ~-2 ~1 ~13 ~2 oak_leaves replace air
+    execute at @e[tag=tree] run fill ~-2 ~12 ~-1 ~2 ~13 ~1 oak_leaves replace air
+    execute at @e[tag=tree] run fill ~-1 ~14 ~-1 ~1 ~14 ~1 oak_leaves replace air
+    execute at @e[tag=tree] run fill ~-1 ~15 ~ ~1 ~15 ~ oak_leaves replace air
+    execute at @e[tag=tree] run fill ~ ~15 ~-1 ~ ~15 ~1 oak_leaves replace air
+
+    # finish
+    tag @e[tag=tree] remove tree
 
 function func:plane/nether:
     function func:plane/clear
@@ -62,9 +81,77 @@ function func:plane/nether:
             netherrack_layer = nether_index - 1
             fill ~ ~ ~ ~ ~netherrack_layer ~ netherrack
 
+            # soul sand
+            if score @s height matches 3..6:
+                ss_layer = netherrack_layer - 2
+                fill ~ ~ss_layer ~ ~ ~5 ~ soul_sand replace netherrack
+
+    execute as @e[tag=dummy] at @s:
+        # lava
+        fill ~ ~ ~ ~ ~3 ~ orange_stained_glass replace air
+
+    # nether fortress
+    execute as @e[tag=dummy] store result score @s xPos run data get entity @s Pos[0] 1
+    execute as @e[tag=dummy] store result score @s zPos run data get entity @s Pos[2] 1
+    tag @e[tag=dummy,scores={height=10,xPos=4..16,zPos=4..16},limit=1,sort=random] add fortress
+
+    # nether fortress direction
+    execute at @e[tag=fortress,] run fill ~-2 ~ ~-2 ~2 ~15 ~2 nether_bricks replace air
+    # left right
+    execute as @e[tag=fortress] if score @s xPos >= @s zPos at @s:
+        # path and railing
+        fill ~-2 ~18 0 ~2 ~18 20 nether_bricks replace air
+        fill ~-2 ~19 0 ~-2 ~19 20 nether_bricks replace air
+        fill ~2 ~19 0 ~2 ~19 20 nether_bricks replace air
+        # arch
+        fill ~-2 ~16 ~-3 ~2 ~16 ~3 nether_bricks replace air
+        fill ~-2 ~17 ~-4 ~2 ~17 ~4 nether_bricks replace air
+    # up down
+    execute as @e[tag=fortress] unless score @s xPos >= @s zPos at @s:
+        # path and railing
+        fill 0 ~18 ~-2 20 ~18 ~2 nether_bricks replace air
+        fill 0 ~19 ~-2 20 ~19 ~-2 nether_bricks replace air
+        fill 0 ~19 ~2 20 ~19 ~2 nether_bricks replace air
+        # arch
+        fill ~-3 ~16 ~-2 ~3 ~16 ~2 nether_bricks replace air
+        fill ~-4 ~17 ~-2 ~4 ~17 ~2 nether_bricks replace air
+    
+    # finish
+    tag @e[tag=fortress] remove fortress
+
 function func:plane/end:
     function func:plane/clear
     for end_index in range(1, 11):
         execute as @e[tag=dummy] at @s if score @s height matches end_index:
             end_layer = end_index - 1
             fill ~ ~ ~ ~ ~end_layer ~ end_stone
+    
+    # end pillar
+    execute as @e[tag=dummy] store result score @s xPos run data get entity @s Pos[0] 1
+    execute as @e[tag=dummy] store result score @s zPos run data get entity @s Pos[2] 1
+    tag @e[tag=dummy,scores={height=..5,xPos=4..16,zPos=4..16},limit=1,sort=random] add pillar
+    execute if score @e[tag=r2,limit=1,sort=random] random matches 1 run tag @e[tag=pillar] add caged
+
+    execute at @e[tag=pillar] run fill ~-1 ~ ~-3 ~1 ~20 ~3 obsidian
+    execute at @e[tag=pillar] run fill ~-3 ~ ~-1 ~3 ~20 ~1 obsidian
+    execute at @e[tag=pillar] run fill ~-2 ~ ~-2 ~2 ~20 ~2 obsidian
+
+    execute at @e[tag=caged] run fill ~-2 ~21 ~-2 ~2 ~23 ~2 iron_bars
+    execute at @e[tag=caged] run fill ~-1 ~21 ~-1 ~1 ~22 ~1 air
+
+    execute at @e[tag=pillar] run setblock ~ ~21 ~ beacon
+
+    # portal
+    execute at @e[tag=pillar] run tag @e[tag=dummy,tag=!pillar,scores={xPos=1..19,zPos=1..19},limit=1,sort=random,distance=7..] add portal
+
+    execute at @e[tag=portal] run fill ~-1 ~16 ~ ~1 ~18 ~ bedrock
+    execute at @e[tag=portal] run fill ~ ~16 ~-1 ~ ~18 ~1 bedrock
+    execute at @e[tag=portal] run fill ~ ~15 ~ ~ ~19 ~ bedrock
+    execute at @e[tag=portal] run fill ~-1 ~17 ~-1 ~1 ~17 ~1 air replace bedrock
+
+    execute at @e[tag=portal] run setblock ~ ~17 ~ black_concrete
+
+    # finish
+    tag @e[tag=pillar] remove pillar
+    tag @e[tag=caged] remove caged
+    tag @e[tag=portal] remove portal
