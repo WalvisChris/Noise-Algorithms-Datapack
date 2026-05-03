@@ -1,44 +1,44 @@
 function func:plane/clear:
-    kill @e[type=armor_stand,tag=!random]
-    function func:plane/empty
-
-function func:plane/empty:
     fill 0 -63 0 40 -53 40 air
     kill @e[type=item]
 
-function func:plane/refill:
-    kill @e[tag=dummy]
+function func:plane/kill:
+    kill @e[type=armor_stand,tag=!random]
 
+function func:plane/fill:
     for x in range(21):
         for z in range(21):
             summon armor_stand x -63 z {NoGravity:1,Tags:["dummy"],Small:1,Invisible:1}
-    
-    execute as @e[tag=dummy] at @s run setblock ~ ~ ~ air
 
-function func:plane/heightmap:
-    function func:plane/empty
-    for i in range(1, 11):
-        execute as @e[tag=dummy] at @s if score @s random10 matches i:
-            height = i-1
-            fill ~ ~ ~ ~ ~height ~ dirt
-            setblock ~ ~height ~ grass_block
-            if score @s random10 matches 4..:
-                bottom = height-3
+function func:plane/reset:
+    function func:plane/clear
+    function func:plane/kill
+    function func:plane/fill
+    
+function func:plane/nature:
+    function func:plane/clear
+    for nature_index in range(1, 11):
+        execute as @e[tag=dummy] at @s if score @s height matches nature_index:
+            height_layer = nature_index - 1
+            fill ~ ~ ~ ~ ~height_layer ~ dirt
+            setblock ~ ~height_layer ~ grass_block
+            if score @s height matches 4..:
+                bottom = height_layer - 3
                 fill ~ ~ ~ ~ ~bottom ~ stone
 
-function func:plane/nature:
-    function func:plane/empty
-    for i in range(1, 11):
-        execute as @e[tag=dummy] at @s if score @s random10 matches i:
+function func:plane/nature_plus:
+    function func:plane/clear
+    for nature_plus_index in range(1, 11):
+        execute as @e[tag=dummy] at @s if score @s height matches nature_plus_index:
             # dirt and grass
-            height = i-1
-            fill ~ ~ ~ ~ ~height ~ dirt
-            setblock ~ ~height ~ grass_block
+            height_layer = nature_plus_index - 1
+            fill ~ ~ ~ ~ ~height_layer ~ dirt
+            setblock ~ ~height_layer ~ grass_block
 
             # stone
-            if score @s random10 matches 4..:
-                stonelayer = height-3
-                fill ~ ~ ~ ~ ~stonelayer ~ stone
+            if score @s height matches 4..:
+                stone_layer = height_layer - 3
+                fill ~ ~ ~ ~ ~stone_layer ~ stone
 
             # sand
             fill ~ ~2 ~ ~ ~4 ~ sand replace grass_block
@@ -51,6 +51,6 @@ function func:plane/nature:
             fill ~ ~ ~ ~ ~2 ~ gravel replace grass_block
 
             # random grass
-            if score @s random10 matches 6.. if score @e[tag=r10,limit=1,sort=random] random10 matches 8..:
-                grasslayer = height+1
-                setblock ~ ~grasslayer ~ short_grass
+            if score @s height matches 6.. if score @e[tag=r10,limit=1,sort=random] random matches 8..:
+                grass_layer = height_layer + 1
+                setblock ~ ~grass_layer ~ short_grass

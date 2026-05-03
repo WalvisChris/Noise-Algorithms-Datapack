@@ -1,4 +1,3 @@
-kill @e[tag=dummy]
 summon armor_stand 0 -63 0 {NoGravity: 1, Tags: ["dummy"], Small: 1, Invisible: 1}
 summon armor_stand 0 -63 1 {NoGravity: 1, Tags: ["dummy"], Small: 1, Invisible: 1}
 summon armor_stand 0 -63 2 {NoGravity: 1, Tags: ["dummy"], Small: 1, Invisible: 1}
@@ -440,4 +439,3 @@ summon armor_stand 20 -63 17 {NoGravity: 1, Tags: ["dummy"], Small: 1, Invisible
 summon armor_stand 20 -63 18 {NoGravity: 1, Tags: ["dummy"], Small: 1, Invisible: 1}
 summon armor_stand 20 -63 19 {NoGravity: 1, Tags: ["dummy"], Small: 1, Invisible: 1}
 summon armor_stand 20 -63 20 {NoGravity: 1, Tags: ["dummy"], Small: 1, Invisible: 1}
-execute as @e[tag=dummy] at @s run setblock ~ ~ ~ air
