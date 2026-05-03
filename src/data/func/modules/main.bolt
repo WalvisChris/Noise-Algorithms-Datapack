@@ -155,3 +155,20 @@ function func:plane/end:
     tag @e[tag=pillar] remove pillar
     tag @e[tag=caged] remove caged
     tag @e[tag=portal] remove portal
+
+function func:plane/snow:
+    function func:plane/clear
+    for snow_index in range(1, 11):
+        execute as @e[tag=dummy] at @s if score @s height matches snow_index:
+            # snow
+            snow_layer = snow_index - 1
+            fill ~ ~ ~ ~ ~snow_layer ~ snow_block
+
+            # stone
+            if score @s height matches 4..:
+                stone_layer = snow_layer - 2
+                fill ~ ~ ~ ~ ~stone_layer ~ stone
+    
+    execute as @e[tag=dummy] at @s:
+        # ice
+        fill ~ ~ ~ ~ ~3 ~ packed_ice replace air
