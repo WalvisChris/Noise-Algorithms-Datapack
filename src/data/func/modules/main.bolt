@@ -54,3 +54,10 @@ function func:plane/nature_plus:
             if score @s height matches 6.. if score @e[tag=r10,limit=1,sort=random] random matches 8..:
                 grass_layer = height_layer + 1
                 setblock ~ ~grass_layer ~ short_grass
+
+function func:plane/nether:
+    function func:plane/clear
+    for nether_index in range(1, 11):
+        execute as @e[tag=dummy] at @s if score @s height matches nether_index:
+            netherrack_layer = nether_index - 1
+            fill ~ ~ ~ ~ ~netherrack_layer ~ netherrack
