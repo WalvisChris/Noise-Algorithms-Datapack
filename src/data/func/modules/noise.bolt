@@ -115,9 +115,13 @@ function func:noise/lerp10:
     tp @e[tag=lerp] 0 -63 0
 
 function func:noise/average:
+    # check if visited
+    execute unless entity @e[tag=dummy,tag=!visited] run say Averaged 441
+    execute unless entity @e[tag=dummy,tag=!visited] run tag @e[tag=visited] remove visited
+    
     # start
-    summon armor_stand 0 -63 0 {Tags:["avg"],NoGravity:1,Small:0,Invisible:0}
-    execute as @e[tag=dummy,limit=1,sort=random] at @s run tp @e[tag=avg] ~ ~ ~
+    execute at @e[tag=dummy,limit=1,sort=random,tag=!visited] run summon armor_stand ~ ~ ~ {Tags:["avg"],NoGravity:1,Small:0,Invisible:0}
+
     scoreboard players set @e[tag=avg] sum 0
     scoreboard players set @e[tag=avg] count 0
 
@@ -159,7 +163,8 @@ function func:noise/average:
     # render
     execute as @e[tag=dummy] at @s run function func:utils/render10
 
-    # end
+    # end 
+    execute at @e[tag=avg] run tag @e[tag=dummy,limit=1,sort=nearest] add visited
     kill @e[tag=avg]
 
 function func:noise/voronoi:
